@@ -5703,12 +5703,27 @@ Item* Game::getUniqueItem(uint16_t uniqueId)
 	}
 	return it->second;
 }
-
+Item* Game::getItemByRealUID(uint32_t realUID) {
+	auto it = RealItems.find(realUID);
+	if (it != RealItems.end()) {
+		return it->second;
+	}
+	return nullptr;
+}
 bool Game::addUniqueItem(uint16_t uniqueId, Item* item)
 {
 	auto result = uniqueItems.emplace(uniqueId, item);
 	if (!result.second) {
 		std::cout << "Duplicate unique id: " << uniqueId << std::endl;
+	}
+	return result.second;
+}
+//szmata 2
+bool Game::addRealItem(uint32_t RealId, Item* item)
+{
+	auto result = RealItems.emplace(RealId, item);
+	if (!result.second) {
+		std::cout << "Duplicate Real id: " << RealId << std::endl;
 	}
 	return result.second;
 }

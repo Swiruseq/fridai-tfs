@@ -10,6 +10,7 @@
 #include "chat.h"
 #include "player.h"
 #include "game.h"
+
 #include "protocolstatus.h"
 #include "spells.h"
 #include "iologindata.h"
@@ -1487,6 +1488,7 @@ void LuaScriptInterface::registerFunctions()
 	registerEnum(ITEM_ATTRIBUTE_NONE)
 	registerEnum(ITEM_ATTRIBUTE_ACTIONID)
 	registerEnum(ITEM_ATTRIBUTE_UNIQUEID)
+	registerEnum(ITEM_ATTRIBUTE_REALID)
 	registerEnum(ITEM_ATTRIBUTE_DESCRIPTION)
 	registerEnum(ITEM_ATTRIBUTE_TEXT)
 	registerEnum(ITEM_ATTRIBUTE_DATE)
@@ -2058,6 +2060,7 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Game", "getAccountStorageValue", LuaScriptInterface::luaGameGetAccountStorageValue);
 	registerMethod("Game", "setAccountStorageValue", LuaScriptInterface::luaGameSetAccountStorageValue);
 	registerMethod("Game", "saveAccountStorageValues", LuaScriptInterface::luaGameSaveAccountStorageValues);
+	registerMethod("Game", "getItemByRUID", LuaScriptInterface::luaGameGetItemByRUID);
 
 	// Variant
 	registerClass("Variant", "", LuaScriptInterface::luaVariantCreate);
@@ -2201,6 +2204,8 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Item", "getUniqueId", LuaScriptInterface::luaItemGetUniqueId);
 	registerMethod("Item", "getActionId", LuaScriptInterface::luaItemGetActionId);
 	registerMethod("Item", "setActionId", LuaScriptInterface::luaItemSetActionId);
+
+	registerMethod("Item", "getRealUID", LuaScriptInterface::luaItemGetRealUID);
 
 	registerMethod("Item", "getCount", LuaScriptInterface::luaItemGetCount);
 	registerMethod("Item", "getCharges", LuaScriptInterface::luaItemGetCharges);
@@ -2517,6 +2522,8 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "getFightMode", LuaScriptInterface::luaPlayerGetFightMode);
 
 	registerMethod("Player", "getStoreInbox", LuaScriptInterface::luaPlayerGetStoreInbox);
+	registerMethod("Player", "internalGetThing", LuaScriptInterface::luaInternalGetThing);
+	registerMethod("Player", "internalGetCylinder", LuaScriptInterface::luaInternalGetCylinder);
 
 	// Monster
 	registerClass("Monster", "Creature", LuaScriptInterface::luaMonsterCreate);
@@ -4681,6 +4688,71 @@ int LuaScriptInterface::luaGameSaveAccountStorageValues(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaGameGetItemByRUID(lua_State* L)
+{
+	// Game.getItemByRUID()
+	uint32_t realUID = getNumber<uint32_t>(L, 1);
+	Item* item = g_game.getItemByRealUID(realUID);
+
+	if (item) {
+		// Push the item as a userdata onto the Lua stack
+		pushUserdata<Item>(L, item);
+		setItemMetatable(L, -1, item);
+	}
+	else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+int LuaScriptInterface::luaInternalGetThing(lua_State* L)
+{
+	// player:internalGetThing(thingPos, stackPos, spriteId, stackId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+	const Position& thingPos = getPosition(L, 2);
+	//should check if its sane position
+
+	int32_t stackPos = getNumber<int32_t>(L, 3);
+	if (!stackPos)
+		stackPos = 0;
+		
+	int32_t spriteId = getNumber<int32_t>(L, 4);
+	if (!spriteId)
+		spriteId = 0;
+
+	stackPosType_t stackId = getNumber<stackPosType_t>(L, 5);
+	if (!stackId)
+		stackId = STACKPOS_TOPDOWN_ITEM;
+
+	Thing* thing = g_game.internalGetThing(player, thingPos, stackPos, spriteId, stackId);
+	if (thing)
+		pushThing(L, thing);
+	else
+		lua_pushnil(L);
+	return 1;
+}
+int LuaScriptInterface::luaInternalGetCylinder(lua_State* L)
+{
+	// player:internalGetCylinder(thingPos)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+	const Position& thingPos = getPosition(L, 2);
+	//should check if its sane position
+
+	Cylinder* thing = g_game.internalGetCylinder(player, thingPos);
+	if (thing)
+		pushThing(L, thing);
+	else
+		lua_pushnil(L);
+	return 1;
+}
 // Variant
 int LuaScriptInterface::luaVariantCreate(lua_State* L)
 {
@@ -6309,6 +6381,20 @@ int LuaScriptInterface::luaItemGetActionId(lua_State* L)
 	return 1;
 }
 
+int LuaScriptInterface::luaItemGetRealUID(lua_State* L)
+{
+	Item* item = getUserdata<Item>(L, 1);
+	if (item) {
+		lua_pushnumber(L, item->getRealUID());
+	}
+	else {
+		lua_pushnil(L);
+	}
+	return 1;
+}
+
+
+
 int LuaScriptInterface::luaItemSetActionId(lua_State* L)
 {
 	// item:setActionId(actionId)
@@ -6322,6 +6408,9 @@ int LuaScriptInterface::luaItemSetActionId(lua_State* L)
 	}
 	return 1;
 }
+// luascript.cpp
+
+
 
 int LuaScriptInterface::luaItemGetCount(lua_State* L)
 {

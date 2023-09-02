@@ -486,7 +486,12 @@ class Game
 
 		Item* getUniqueItem(uint16_t uniqueId);
 		bool addUniqueItem(uint16_t uniqueId, Item* item);
+		bool addRealItem(uint32_t RealId, Item* item);
+		Item* getItemByRealUID(uint32_t realUID);
 		void removeUniqueItem(uint16_t uniqueId);
+		//szmata
+
+
 
 		bool reload(ReloadTypes_t reloadType);
 		
@@ -514,7 +519,10 @@ class Game
 		void clearTilesToClean() {
 			tilesToClean.clear();
 		}
-
+		uint32_t lastItemId = 0;
+		uint32_t nextItemUID() {
+			return ++lastItemId;
+		}
 	private:
 		bool playerSaySpell(Player* player, SpeakClasses type, const std::string& text);
 		void playerWhisper(Player* player, const std::string& text);
@@ -530,6 +538,10 @@ class Game
 		std::unordered_map<uint32_t, Player*> mappedPlayerGuids;
 		std::unordered_map<uint32_t, Guild*> guilds;
 		std::unordered_map<uint16_t, Item*> uniqueItems;
+		std::unordered_map<uint32_t, Item*> RealItems;
+		//realuid
+
+		//realuid
 		std::map<uint32_t, uint32_t> stages;
 		std::unordered_map<uint32_t, std::unordered_map<uint32_t, int32_t>> accountStorageMap;
 
@@ -585,6 +597,7 @@ class Game
 		uint32_t lastStageLevel = 0;
 		bool stagesEnabled = false;
 		bool useLastStageLevel = false;
+		
 };
 
 #endif

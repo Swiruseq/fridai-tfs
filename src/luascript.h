@@ -585,7 +585,9 @@ class LuaScriptInterface
 		static int luaGameGetAccountStorageValue(lua_State* L);
 		static int luaGameSetAccountStorageValue(lua_State* L);
 		static int luaGameSaveAccountStorageValues(lua_State* L);
-
+		static int luaGameGetItemByRUID(lua_State* L);
+		static int luaInternalGetThing(lua_State* L);
+		static int luaInternalGetCylinder(lua_State* L);
 		// Variant
 		static int luaVariantCreate(lua_State* L);
 
@@ -722,7 +724,13 @@ class LuaScriptInterface
 		static int luaItemGetUniqueId(lua_State* L);
 		static int luaItemGetActionId(lua_State* L);
 		static int luaItemSetActionId(lua_State* L);
+		static int luaItemGetRealUID(lua_State* L);
 
+
+		// Add this line in the function that initializes your Lua functions
+
+
+		
 		static int luaItemGetCount(lua_State* L);
 		static int luaItemGetCharges(lua_State* L);
 		static int luaItemGetFluidType(lua_State* L);
@@ -1375,6 +1383,8 @@ class LuaScriptInterface
 		static int luaLootSetActionId(lua_State* L);
 		static int luaLootSetDescription(lua_State* L);
 		static int luaLootAddChildLoot(lua_State* L);
+
+
 
 		// MonsterSpell
 		static int luaCreateMonsterSpell(lua_State* L);

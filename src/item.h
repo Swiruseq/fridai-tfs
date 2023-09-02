@@ -95,6 +95,7 @@ enum AttrTypes_t {
 	ATTR_OPENCONTAINER = 39,
 	ATTR_PODIUMOUTFIT = 40,
 	ATTR_TIER = 41,
+	ATTR_REALUID = 42,
 };
 
 enum Attr_ReadValue {
@@ -155,10 +156,10 @@ class ItemAttributes
 		void setUniqueId(uint16_t n) {
 			setIntAttr(ITEM_ATTRIBUTE_UNIQUEID, n);
 		}
+
 		uint16_t getUniqueId() const {
 			return static_cast<uint16_t>(getIntAttr(ITEM_ATTRIBUTE_UNIQUEID));
 		}
-
 		void setCharges(uint16_t n) {
 			setIntAttr(ITEM_ATTRIBUTE_CHARGES, n);
 		}
@@ -341,7 +342,6 @@ class ItemAttributes
 			return (type & attributeBits) != 0;
 		}
 		void removeAttribute(itemAttrTypes type);
-
 		static std::string emptyString;
 		static int64_t emptyInt;
 		static double emptyDouble;
@@ -500,7 +500,7 @@ class ItemAttributes
 			| ITEM_ATTRIBUTE_ARMOR | ITEM_ATTRIBUTE_HITCHANCE | ITEM_ATTRIBUTE_SHOOTRANGE | ITEM_ATTRIBUTE_OWNER
 			| ITEM_ATTRIBUTE_DURATION | ITEM_ATTRIBUTE_DECAYSTATE | ITEM_ATTRIBUTE_CORPSEOWNER | ITEM_ATTRIBUTE_CHARGES
 			| ITEM_ATTRIBUTE_FLUIDTYPE | ITEM_ATTRIBUTE_DOORID | ITEM_ATTRIBUTE_DECAYTO | ITEM_ATTRIBUTE_WRAPID | ITEM_ATTRIBUTE_STOREITEM
-			| ITEM_ATTRIBUTE_ATTACK_SPEED;
+			| ITEM_ATTRIBUTE_ATTACK_SPEED | ITEM_ATTRIBUTE_REALID;
 		const static uint32_t stringAttributeTypes = ITEM_ATTRIBUTE_DESCRIPTION | ITEM_ATTRIBUTE_TEXT | ITEM_ATTRIBUTE_WRITER
 			| ITEM_ATTRIBUTE_NAME | ITEM_ATTRIBUTE_ARTICLE | ITEM_ATTRIBUTE_PLURALNAME;
 
@@ -971,6 +971,7 @@ class Item : virtual public Thing
 
 		void setUniqueId(uint16_t n);
 
+
 		void setDefaultDuration() {
 			uint32_t duration = getDefaultDuration();
 			if (duration != 0) {
@@ -1034,6 +1035,21 @@ class Item : virtual public Thing
 		bool isRemoved() const override {
 			return !parent || parent->isRemoved();
 		}
+
+		//----------------------
+		uint32_t realUID;
+
+		uint32_t realUId = 0;
+		void setRealUID(uint32_t uid) {
+			realUID = uid;
+
+		}
+
+		uint32_t getRealUID() const {
+			return realUID;
+		}
+
+		//----------------------
 
 	protected:
 		Cylinder* parent = nullptr;

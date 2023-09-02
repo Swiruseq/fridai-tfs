@@ -80,7 +80,7 @@ void NetworkMessage::addPosition(const Position& pos)
 	addByte(pos.z);
 }
 
-void NetworkMessage::addItem(uint16_t id, uint8_t count, bool withDescription)
+void NetworkMessage::addItem(uint16_t id, uint8_t count)
 {
 	const ItemType& it = Item::items[id];
 
@@ -98,12 +98,9 @@ void NetworkMessage::addItem(uint16_t id, uint8_t count, bool withDescription)
 		addByte(0xFE); // random phase (0xFF for async)
 	}
 
-	if (withDescription) {
-		addString("");
-	}
 }
 
-void NetworkMessage::addItem(const Item* item, bool withDescription)
+void NetworkMessage::addItem(const Item* item)
 {
 	const ItemType& it = Item::items[item->getID()];
 
@@ -118,9 +115,6 @@ void NetworkMessage::addItem(const Item* item, bool withDescription)
 
 	if (it.isAnimation) {
 		addByte(0xFE); // random phase (0xFF for async)
-	}
-	if (withDescription) {
-		addString(item->getDescription(0));
 	}
 }
 

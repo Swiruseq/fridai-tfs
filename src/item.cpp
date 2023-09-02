@@ -66,7 +66,10 @@ Item* Item::CreateItem(const uint16_t type, uint16_t count /*= 0*/)
 		} else {
 			newItem = new Item(type, count);
 		}
-
+		if (it.pickupable) {
+			newItem->setRealUID(g_game.nextItemUID());
+			g_game.addRealItem(newItem->getRealUID(), newItem);
+		}
 		newItem->incrementReferenceCounter();
 	}
 
@@ -393,7 +396,15 @@ Attr_ReadValue Item::readAttr(AttrTypes_t attr, PropStream& propStream)
 			setUniqueId(uniqueId);
 			break;
 		}
+		case ATTR_REALUID: {
+			uint32_t RealId;
+			if (!propStream.read<uint32_t>(RealId)) {
+				return ATTR_READ_ERROR;
+			}
 
+			setRealUID(RealId);
+			break;
+		}
 		case ATTR_TEXT: {
 			std::string text;
 			if (!propStream.readString(text)) {
@@ -1623,6 +1634,19 @@ void Item::setUniqueId(uint16_t n)
 	}
 }
 
+/*
+void Item::getRealDesc(uint16_t uid)
+{
+	if (hasAttribute(ITEM_ATTRIBUTE_REALID)) {
+		return;
+	}
+
+	if (g_game.addRealItem(uid, this)) {
+		getAttributes()->setRealUID(uid);
+
+	}
+}
+*/
 bool Item::canDecay() const
 {
 	if (isRemoved()) {
