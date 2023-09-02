@@ -14,4 +14,5 @@
 	<event type="manachange" name="UpgradeSystemMana" script="upgrade_system_cs.lua" />
 	<event type="preparedeath" name="UpgradeSystemPD" script="upgrade_system_cs.lua" />
 	<event type="extendedopcode" name="ExtendedOpcode" script="extendedopcode.lua" />
+	<event type="extendedopcode" name="tooltips" script="tooltips.lua" />
 </creaturescripts>

@@ -28,5 +28,7 @@ function onLogin(player)
 	-- Events
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("DropLoot")
+	player:registerEvent("ExtendedOpcode")
+	player:registerEvent("tooltips")
 	return true
 end
