@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shaders>
+    <shader id="1" name="Blue Bloohs" premium="no" />
+    <shader id="2" name="Green Bloohs" premium="no" />
+    <shader id="3" name="Red Bloohs" premium="no" />
+    <shader id="4" name="Yellow Bloohs" premium="no" />
+    <shader id="5" name="Blue Dortmond" premium="no" />
+    <shader id="6" name="Red Dortmond" premium="no" />
+    <shader id="7" name="White Dortmond" premium="no" />
+    <shader id="8" name="Green Dortmond" premium="no" />
+    <shader id="9" name="Yellow Dortmond" premium="no" />
+    <shader id="10" name="Pink Energizer" premium="no" />
+    <shader id="11" name="Blue Energizer" premium="no" />
+    <shader id="12" name="Red Energizer" premium="no" />
+    <shader id="13" name="Yellow Energizer" premium="no" />
+    <shader id="14" name="White Energizer" premium="no" />
+    <shader id="15" name="Orange Energizer" premium="no" />
+    <shader id="16" name="Yellow Pixent" premium="no" />
+    <shader id="17" name="Green Pixent" premium="no" />
+    <shader id="18" name="Blue Pixent" premium="no" />
+    <shader id="19" name="Green Confused" premium="no" />
+    <shader id="20" name="White Confused" premium="no" />
+    <shader id="21" name="Orange Confused" premium="no" />
+    <shader id="22" name="Yellow Confused" premium="no" />
+    <shader id="23" name="Red Confused" premium="no" />
+    <shader id="24" name="Blue Kaos" premium="no" />
+    <shader id="25" name="Grape Ozeus" premium="no" />
+    <shader id="26" name="Red Ozeus" premium="no" />
+    <shader id="27" name="Blue Ozeus" premium="no" />
+    <shader id="28" name="Yellow Ozeus" premium="no" />
+    <shader id="29" name="Green Ozeus" premium="no" />
+    <shader id="30" name="White Ozeus" premium="no" />
+    <shader id="31" name="Cinetic" premium="no" />
+    <shader id="32" name="Blue Lumni" premium="no" />
+    <shader id="33" name="Red Lumni" premium="no" />
+    <shader id="34" name="Green Lumni" premium="no" />
+    <shader id="35" name="Yellow Lumni" premium="no" />
+    <shader id="36" name="Shine" premium="no" />
+    <shader id="37" name="line_green" premium="no" />
+    <shader id="38" name="Out Red" premium="no" />
+    <shader id="39" name="Out Rainbow" premium="no" />
+    <shader id="40" name="outred" premium="no" />
+    <shader id="41" name="Rainbow" premium="no" />
+    <shader id="42" name="Glitch" premium="no" />
+    <shader id="43" name="outblack" premium="no" />
+    <shader id="44" name="Out Grey" premium="no" />
+</shaders>
